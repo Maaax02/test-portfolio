@@ -2,18 +2,18 @@
 import { site } from '../data/site';
 
 const waLink = site.whatsapp
-  ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Ciao! Vorrei un audit gratuito del mio sito.')}`
+  ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Ciao! Vorrei un controllo gratuito del mio sito.')}`
   : null;
 ---
 
 <section class="section is-dark" id="contatti">
   <div class="wrap contatti">
     <div class="contatti-intro" data-reveal>
-      <p class="eyebrow">Audit gratuito</p>
+      <p class="eyebrow">Gratis e senza impegno</p>
       <h2>Scopriamo cosa frena il tuo sito. Gratis.</h2>
       <p class="contatti-lede">
         Mandami il link del tuo sito (o dimmi che non ne hai ancora uno). Ti rispondo
-        con un’analisi concreta: cosa funziona, cosa ti sta facendo perdere clienti e
+        con un parere concreto: cosa funziona, cosa ti sta facendo perdere clienti e
         da dove conviene partire. Nessun impegno.
       </p>
 
@@ -69,7 +69,7 @@ const waLink = site.whatsapp
       </div>
 
       <!-- onestà: per chi arriva via Formspree, oggetto leggibile -->
-      <input type="hidden" name="_subject" value="Richiesta audit gratuito dal sito" />
+      <input type="hidden" name="_subject" value="Richiesta controllo gratuito dal sito" />
 
       <button class="btn form-submit" type="submit">
         Invia la richiesta <span class="arrow" aria-hidden="true">→</span>
