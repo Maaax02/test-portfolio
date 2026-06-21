@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { site } from '../../data/site';
+import { link } from '../../lib/url';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -27,7 +28,7 @@ const { Content } = await project.render();
   <main id="main" class={`case tint-${data.tinta}`}>
     <article>
       <header class="case-hero wrap is-dark">
-        <a class="back mono" href="/#lavori">← Tutti i lavori</a>
+        <a class="back mono" href={link('#lavori')}>← Tutti i lavori</a>
 
         <div class="case-meta">
           {data.concept && <span class="badge mono">Progetto dimostrativo</span>}
@@ -80,7 +81,7 @@ const { Content } = await project.render();
         <aside class="case-cta">
           <h2>Vuoi un sito così per la tua attività?</h2>
           <p>Partiamo da un audit gratuito. Ti dico cosa serve davvero, senza impegno.</p>
-          <a class="btn" href="/#contatti">
+          <a class="btn" href={link('#contatti')}>
             Ricevi un audit gratuito <span class="arrow" aria-hidden="true">→</span>
           </a>
         </aside>

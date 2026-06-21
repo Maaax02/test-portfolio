@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { link } from '../lib/url';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -10,7 +11,7 @@ const { project, index } = Astro.props;
 const { data, slug } = project;
 ---
 
-<a class={`pcard tint-${data.tinta}`} href={`/lavori/${slug}`} data-reveal style={`--reveal-delay:${index * 90}ms`}>
+<a class={`pcard tint-${data.tinta}`} href={link(`lavori/${slug}`)} data-reveal style={`--reveal-delay:${index * 90}ms`}>
   <div class="pcard-top">
     {data.concept && <span class="badge mono">Progetto dimostrativo</span>}
     <span class="pcard-sector mono">{data.settore}</span>
