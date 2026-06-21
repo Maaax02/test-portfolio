@@ -11,8 +11,8 @@ risultati:
   - "Tempo di caricamento sotto il secondo su mobile"
   - "Form di richiesta + WhatsApp per rispondere in giornata"
 tecnologie:
-  - "Astro"
   - "Motore prenotazioni"
+  - "Pagamenti diretti"
   - "Immagini ottimizzate"
 tinta: "cobalto"
 ordine: 1

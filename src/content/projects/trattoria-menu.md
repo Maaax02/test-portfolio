@@ -11,9 +11,9 @@ risultati:
   - "Menù aggiornato in autonomia, niente ristampe"
   - "Scheda Google e sito coerenti, trovabili da mobile"
 tecnologie:
-  - "Astro"
   - "Prenotazione tavoli"
   - "Menù digitale"
+  - "Promemoria automatici"
 tinta: "ocra"
 ordine: 3
 ---

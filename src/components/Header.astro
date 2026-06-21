@@ -8,7 +8,7 @@ const links = [
 ];
 ---
 
-<header class="site-header">
+<header class="site-header" data-header>
   <div class="wrap bar">
     <a class="brand" href="#top" aria-label={`${site.nome}, torna su`}>
       <span class="brand-mark" aria-hidden="true">
@@ -26,6 +26,31 @@ const links = [
     </nav>
 
     <a class="btn header-cta" href="#contatti">
+      Controllo gratuito <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Apri il menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-nav-toggle
+    >
+      <span class="nav-toggle-box" aria-hidden="true">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Pannello di navigazione mobile -->
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <nav class="mobile-nav" aria-label="Navigazione mobile">
+      {links.map((l) => <a href={l.href} data-nav-link>{l.label}</a>)}
+    </nav>
+    <a class="btn mobile-cta" href="#contatti" data-nav-link>
       Controllo gratuito <span class="arrow" aria-hidden="true">→</span>
     </a>
   </div>
@@ -46,8 +71,8 @@ const links = [
   .bar {
     display: flex;
     align-items: center;
-    gap: var(--space-m);
-    min-height: 68px;
+    gap: clamp(0.75rem, 2vw, var(--space-m));
+    min-height: clamp(58px, 4vw + 48px, 68px);
   }
 
   .brand {
@@ -58,6 +83,7 @@ const links = [
     font-weight: 700;
     font-size: var(--step-1);
     letter-spacing: -0.02em;
+    flex-shrink: 0;
   }
 
   .brand-mark {
@@ -104,22 +130,147 @@ const links = [
   }
 
   .header-cta {
-    padding-block: 0.6rem;
-    padding-inline: 1.1rem;
+    padding-block: 0.55rem;
+    padding-inline: clamp(0.9rem, 2vw, 1.2rem);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
+  /* ---- Toggle hamburger (solo mobile) ---- */
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    padding: 0;
+    background: transparent;
+    border: 1px solid rgba(242, 238, 230, 0.22);
+    border-radius: var(--radius-s);
+    color: var(--gesso);
+    flex-shrink: 0;
+  }
+
+  .nav-toggle-box {
+    display: grid;
+    gap: 5px;
+    width: 22px;
+  }
+
+  .nav-toggle-line {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.28s var(--ease), opacity 0.2s var(--ease);
+  }
+
+  /* Stato aperto: la "X" */
+  .site-header[data-open] .nav-toggle-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .site-header[data-open] .nav-toggle-line:nth-child(2) {
+    opacity: 0;
+  }
+  .site-header[data-open] .nav-toggle-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ---- Pannello mobile ---- */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--gutter) var(--space-l);
+    border-top: 1px solid rgba(242, 238, 230, 0.12);
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-nav a {
+    padding-block: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+    letter-spacing: 0.03em;
+    color: rgba(242, 238, 230, 0.9);
+    border-bottom: 1px solid rgba(242, 238, 230, 0.1);
+    transition: color 0.2s var(--ease);
+  }
+
+  .mobile-nav a:hover {
+    color: var(--ocra);
+  }
+
+  .mobile-cta {
+    justify-content: center;
+    margin-top: var(--space-2xs);
+  }
+
+  /* ---- Breakpoint: passaggio a menu mobile ---- */
   @media (max-width: 760px) {
     .nav {
       display: none;
     }
     .header-cta {
-      margin-left: auto;
+      display: none;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .site-header[data-open] .mobile-menu {
+      display: flex;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .nav a::after {
+    .nav a::after,
+    .nav-toggle-line {
       transition: none;
     }
   }
 </style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+
+  if (header && toggle && menu) {
+    const setOpen = (open: boolean) => {
+      header.toggleAttribute('data-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu');
+      menu.hidden = !open;
+    };
+
+    // Stato iniziale: chiuso (il pannello è visibile via CSS solo se aperto)
+    setOpen(false);
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Chiudi cliccando un link
+    links.forEach((link) => link.addEventListener('click', () => setOpen(false)));
+
+    // Chiudi con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Chiudi se si torna a viewport desktop
+    const mq = window.matchMedia('(min-width: 761px)');
+    mq.addEventListener('change', (e) => {
+      if (e.matches) setOpen(false);
+    });
+  }
+</script>
