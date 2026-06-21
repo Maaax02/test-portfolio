@@ -1,0 +1,264 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await project.render();
+---
+
+<Base title={`${data.titolo} — ${site.nome}`} description={data.sintesi}>
+  <Header />
+  <main id="main" class={`case tint-${data.tinta}`}>
+    <article>
+      <header class="case-hero wrap is-dark">
+        <a class="back mono" href="/#lavori">← Tutti i lavori</a>
+
+        <div class="case-meta">
+          {data.concept && <span class="badge mono">Progetto dimostrativo</span>}
+          <span class="mono">{data.settore}</span>
+        </div>
+
+        <h1>{data.titolo}</h1>
+        <p class="case-sintesi">{data.sintesi}</p>
+
+        <dl class="case-facts">
+          <div>
+            <dt class="mono">Soggetto</dt>
+            <dd>{data.cliente}</dd>
+          </div>
+          <div>
+            <dt class="mono">Stack</dt>
+            <dd>{data.tecnologie.join(' · ')}</dd>
+          </div>
+        </dl>
+      </header>
+
+      <div class="case-body wrap">
+        <section class="block">
+          <h2 class="block-h">Il problema</h2>
+          <p>{data.problema}</p>
+        </section>
+
+        <section class="block">
+          <h2 class="block-h">La soluzione</h2>
+          <p>{data.soluzione}</p>
+        </section>
+
+        {
+          data.risultati.length > 0 && (
+            <section class="block">
+              <h2 class="block-h">Cosa otterresti</h2>
+              <ul class="risultati">
+                {data.risultati.map((r) => (
+                  <li>{r}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <section class="block prose">
+          <Content />
+        </section>
+
+        <aside class="case-cta">
+          <h2>Vuoi un sito così per la tua attività?</h2>
+          <p>Partiamo da un audit gratuito. Ti dico cosa serve davvero, senza impegno.</p>
+          <a class="btn" href="/#contatti">
+            Ricevi un audit gratuito <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </aside>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .case {
+    --tint: var(--cobalto);
+    background: var(--cobalto);
+    color: var(--gesso);
+  }
+  .tint-verde {
+    --tint: var(--verde-maiolica);
+  }
+  .tint-ocra {
+    --tint: var(--ocra);
+  }
+
+  .case-hero {
+    padding-block: clamp(3rem, 8vw, 6rem) var(--space-xl);
+  }
+
+  .back {
+    display: inline-block;
+    font-size: var(--step--1);
+    color: rgba(242, 238, 230, 0.78);
+    margin-bottom: var(--space-l);
+    transition: color 0.2s var(--ease);
+  }
+
+  .back:hover {
+    color: var(--ocra);
+  }
+
+  .case-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+    font-size: var(--step--1);
+    color: rgba(242, 238, 230, 0.72);
+    margin-bottom: var(--space-m);
+  }
+
+  .badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--ocra) 20%, transparent);
+    color: var(--ocra);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .case-hero h1 {
+    max-width: 18ch;
+    font-size: clamp(2.3rem, 1.5rem + 4vw, 4.5rem);
+  }
+
+  .case-sintesi {
+    margin-top: var(--space-m);
+    max-width: 56ch;
+    font-size: var(--step-1);
+    color: rgba(242, 238, 230, 0.85);
+  }
+
+  .case-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl);
+    margin-top: var(--space-l);
+    padding-top: var(--space-m);
+    border-top: 1px solid rgba(242, 238, 230, 0.18);
+  }
+
+  .case-facts dt {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(242, 238, 230, 0.6);
+    margin-bottom: 0.3rem;
+  }
+
+  /* corpo su fondo gesso per leggibilità */
+  .case-body {
+    background: var(--gesso);
+    color: var(--inchiostro);
+    border-radius: var(--radius-l) var(--radius-l) 0 0;
+    padding-block: clamp(2.5rem, 7vw, 5rem);
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .block {
+    max-width: 64ch;
+  }
+
+  .block-h {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-s);
+  }
+
+  .block p {
+    color: var(--fg-muted);
+    font-size: var(--step-1);
+  }
+
+  .risultati {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .risultati li {
+    position: relative;
+    padding-left: 1.8rem;
+    font-size: var(--step-1);
+  }
+
+  .risultati li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2.5px solid var(--tint);
+  }
+
+  .prose :global(h2) {
+    font-size: var(--step-2);
+    margin-top: var(--space-l);
+    margin-bottom: var(--space-s);
+  }
+
+  .prose :global(p) {
+    color: var(--fg-muted);
+    margin-bottom: var(--space-s);
+    max-width: 64ch;
+  }
+
+  .prose :global(blockquote) {
+    margin: var(--space-m) 0;
+    padding-left: var(--space-m);
+    border-left: 3px solid var(--tint);
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+
+  .case-cta {
+    margin-top: var(--space-m);
+    padding: clamp(1.8rem, 5vw, 3rem);
+    background: var(--cobalto-prof);
+    color: var(--gesso);
+    border-radius: var(--radius-l);
+  }
+
+  .case-cta h2 {
+    font-size: var(--step-2);
+    max-width: 22ch;
+  }
+
+  .case-cta p {
+    margin-block: var(--space-s) var(--space-m);
+    color: rgba(242, 238, 230, 0.82);
+    max-width: 50ch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .back {
+      transition: none;
+    }
+  }
+</style>

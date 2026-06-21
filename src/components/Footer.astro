@@ -1,0 +1,108 @@
+---
+import { site } from '../data/site';
+
+const anno = new Date().getFullYear();
+const socials = Object.entries(site.social).filter(([, url]) => url) as [string, string][];
+---
+
+<footer class="site-footer is-dark">
+  <div class="wrap foot">
+    <div class="foot-brand">
+      <span class="foot-name">{site.nome}</span>
+      <p class="foot-tag mono">{site.ruolo}</p>
+    </div>
+
+    <nav class="foot-nav" aria-label="Navigazione footer">
+      <a href="#servizi">Servizi</a>
+      <a href="#lavori">Lavori</a>
+      <a href="#approccio">Approccio</a>
+      <a href="#contatti">Contatti</a>
+    </nav>
+
+    {
+      socials.length > 0 && (
+        <nav class="foot-social" aria-label="Social">
+          {socials.map(([rete, url]) => (
+            <a href={url} target="_blank" rel="noopener" class="mono">
+              {rete}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+  </div>
+
+  <div class="wrap foot-base">
+    <p class="mono">© {anno} {site.nome} · Palermo</p>
+    <p class="mono made">Costruito con cura. <span aria-hidden="true">◍</span></p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--cobalto-prof);
+    color: var(--gesso);
+    padding-block: var(--space-xl) var(--space-l);
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l);
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: var(--space-l);
+    border-bottom: 1px solid rgba(242, 238, 230, 0.16);
+  }
+
+  .foot-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-2);
+  }
+
+  .foot-tag {
+    margin-top: 0.3rem;
+    font-size: var(--step--1);
+    color: rgba(242, 238, 230, 0.7);
+  }
+
+  .foot-nav,
+  .foot-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    font-size: var(--step--1);
+  }
+
+  .foot-nav a,
+  .foot-social a {
+    color: rgba(242, 238, 230, 0.8);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+
+  .foot-nav a:hover,
+  .foot-social a:hover {
+    color: var(--gesso);
+    border-color: var(--ocra);
+  }
+
+  .foot-social a {
+    text-transform: capitalize;
+  }
+
+  .foot-base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-top: var(--space-m);
+    font-size: var(--step--1);
+    color: rgba(242, 238, 230, 0.6);
+  }
+
+  .made span {
+    color: var(--ocra);
+  }
+</style>

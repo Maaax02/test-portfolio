@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.ordine - b.data.ordine
+);
+---
+
+<section class="section is-dark" id="lavori">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="eyebrow">Lavori</p>
+      <h2>Concept pensati per chi lavora qui.</h2>
+      <p class="sec-sub">
+        Sto avviando la mia attività, quindi questi sono
+        <strong>progetti dimostrativi</strong>, non clienti reali — e te lo dico
+        chiaramente. Li ho costruiti sui problemi veri delle imprese siciliane, per
+        mostrarti come lavoro e cosa otterresti.
+      </p>
+    </header>
+
+    <div class="pgrid">
+      {projects.map((project, i) => <ProjectCard project={project} index={i} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-head {
+    max-width: 44ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .sec-head .eyebrow {
+    margin-bottom: var(--space-s);
+  }
+
+  .sec-sub {
+    margin-top: var(--space-m);
+    color: var(--fg-muted);
+    font-size: var(--step-1);
+    max-width: 58ch;
+  }
+
+  .sec-sub strong {
+    color: var(--gesso);
+    font-weight: 600;
+  }
+
+  .pgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-m);
+  }
+</style>

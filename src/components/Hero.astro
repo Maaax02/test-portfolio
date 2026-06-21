@@ -1,0 +1,255 @@
+---
+import { site } from '../data/site';
+---
+
+<section class="hero is-dark" id="top" data-glaze>
+  <!-- Signature: il riflesso sullo smalto -->
+  <div class="glaze" aria-hidden="true">
+    <span class="glaze-sheen"></span>
+    <span class="glaze-light"></span>
+  </div>
+
+  <div class="wrap hero-inner">
+    <p class="eyebrow hero-eyebrow">{site.ruolo}</p>
+
+    <h1 class="hero-title">
+      <span class="line"><span>Più prenotazioni dirette.</span></span>
+      <span class="line"><span>Meno commissioni.</span></span>
+      <span class="line accent"><span>Siti che le imprese</span></span>
+      <span class="line accent"><span>siciliane meritano.</span></span>
+    </h1>
+
+    <p class="hero-lede">
+      Progetto e costruisco siti veloci e curati per B&amp;B, botteghe, ristoranti e
+      studi professionali. L'obiettivo non è “avere un sito”: è avere
+      <strong>più clienti, più prenotazioni e più vendite</strong> — senza dipendere
+      dalle piattaforme.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn" href="#contatti">
+        Ricevi un audit gratuito del tuo sito
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="btn btn--ghost" href="#lavori">Guarda i lavori</a>
+    </div>
+
+    <ul class="hero-marks" aria-label="Principi di lavoro">
+      <li><span class="num">01</span> Cura del dettaglio</li>
+      <li><span class="num">02</span> Velocità misurabile</li>
+      <li><span class="num">03</span> Fatto per vendere</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--bg);
+    color: var(--fg);
+    /* posizione del riflesso, aggiornata dal puntatore (default centrata in alto) */
+    --mx: 70%;
+    --my: 15%;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    padding-block: clamp(5rem, 14vw, 9.5rem) clamp(4rem, 10vw, 7rem);
+  }
+
+  /* ---- Signature: riflesso sullo smalto ---- */
+  .glaze {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* riflesso glossy che segue il puntatore */
+  .glaze-light {
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(
+      42% 42% at var(--mx) var(--my),
+      rgba(214, 228, 255, 0.5) 0%,
+      rgba(47, 86, 190, 0.25) 35%,
+      transparent 70%
+    );
+    transition: background-position 0.3s var(--ease);
+    mix-blend-mode: screen;
+  }
+
+  /* sheen lento che attraversa la superficie (come luce su ceramica) */
+  .glaze-sheen {
+    position: absolute;
+    inset: -40% -10%;
+    background: conic-gradient(
+      from 200deg at 50% 50%,
+      transparent 0deg,
+      rgba(224, 164, 59, 0.16) 40deg,
+      transparent 90deg,
+      rgba(46, 125, 107, 0.18) 160deg,
+      transparent 220deg,
+      rgba(47, 86, 190, 0.28) 300deg,
+      transparent 360deg
+    );
+    filter: blur(36px);
+    opacity: 0.75;
+    animation: drift 22s linear infinite;
+  }
+
+  /* grana sottile dello smalto */
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 4px 4px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @keyframes drift {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ---- Testo ---- */
+  .hero-eyebrow {
+    color: var(--ocra);
+    margin-bottom: var(--space-m);
+  }
+
+  .hero-title {
+    max-width: 16ch;
+    font-size: clamp(2.7rem, 1.6rem + 6.5vw, 6.4rem);
+    line-height: 0.98;
+    margin-bottom: var(--space-l);
+  }
+
+  .hero-title .line {
+    display: block;
+    overflow: hidden;
+  }
+
+  .hero-title .line > span {
+    display: block;
+  }
+
+  .hero-title .accent {
+    color: var(--ocra);
+  }
+
+  .hero-lede {
+    max-width: 54ch;
+    font-size: var(--step-1);
+    color: rgba(242, 238, 230, 0.82);
+    margin-bottom: var(--space-l);
+  }
+
+  .hero-lede strong {
+    color: var(--gesso);
+    font-weight: 600;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero-marks {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1.2rem, 4vw, 3rem);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.03em;
+    color: rgba(242, 238, 230, 0.78);
+    border-top: 1px solid rgba(242, 238, 230, 0.16);
+    padding-top: var(--space-m);
+  }
+
+  .hero-marks .num {
+    color: var(--ocra);
+    margin-right: 0.5rem;
+  }
+
+  /* ---- Sequenza di load (solo se il JS è attivo) ---- */
+  :global(html.js) .hero-title .line > span,
+  :global(html.js) .hero-eyebrow,
+  :global(html.js) .hero-lede,
+  :global(html.js) .hero-actions,
+  :global(html.js) .hero-marks {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+
+  :global(html.js) .hero-eyebrow,
+  :global(html.js) .hero-lede,
+  :global(html.js) .hero-actions,
+  :global(html.js) .hero-marks {
+    transform: translateY(16px);
+  }
+
+  :global(html.is-ready) .hero-title .line > span,
+  :global(html.is-ready) .hero-eyebrow,
+  :global(html.is-ready) .hero-lede,
+  :global(html.is-ready) .hero-actions,
+  :global(html.is-ready) .hero-marks {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
+
+  :global(html.is-ready) .hero-eyebrow {
+    transition-delay: 0.05s;
+  }
+  :global(html.is-ready) .hero-title .line:nth-child(1) > span {
+    transition-delay: 0.15s;
+  }
+  :global(html.is-ready) .hero-title .line:nth-child(2) > span {
+    transition-delay: 0.24s;
+  }
+  :global(html.is-ready) .hero-title .line:nth-child(3) > span {
+    transition-delay: 0.33s;
+  }
+  :global(html.is-ready) .hero-title .line:nth-child(4) > span {
+    transition-delay: 0.42s;
+  }
+  :global(html.is-ready) .hero-lede {
+    transition-delay: 0.52s;
+  }
+  :global(html.is-ready) .hero-actions {
+    transition-delay: 0.6s;
+  }
+  :global(html.is-ready) .hero-marks {
+    transition-delay: 0.68s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glaze-sheen {
+      animation: none;
+    }
+    .glaze-light {
+      transition: none;
+    }
+    .hero-title .line > span,
+    .hero-eyebrow,
+    .hero-lede,
+    .hero-actions,
+    .hero-marks {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

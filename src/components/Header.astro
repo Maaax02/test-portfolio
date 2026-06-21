@@ -1,0 +1,125 @@
+---
+import { site } from '../data/site';
+
+const links = [
+  { href: '#servizi', label: 'Servizi' },
+  { href: '#lavori', label: 'Lavori' },
+  { href: '#approccio', label: 'Approccio' },
+];
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label={`${site.nome}, torna su`}>
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28">
+          <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.35" />
+          <circle cx="16" cy="16" r="7" fill="none" stroke="var(--ocra)" stroke-width="2.4" />
+          <circle cx="16" cy="16" r="2.3" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="brand-name">{site.nome}</span>
+    </a>
+
+    <nav class="nav" aria-label="Navigazione principale">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+
+    <a class="btn header-cta" href="#contatti">
+      Audit gratuito <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--cobalto-prof) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--gesso);
+    border-bottom: 1px solid rgba(242, 238, 230, 0.12);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    min-height: 68px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    color: var(--gesso);
+  }
+
+  .nav {
+    margin-left: auto;
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.2rem);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+  }
+
+  .nav a {
+    position: relative;
+    padding-block: 0.3rem;
+    color: rgba(242, 238, 230, 0.82);
+    transition: color 0.2s var(--ease);
+  }
+
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--ocra);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease);
+  }
+
+  .nav a:hover {
+    color: var(--gesso);
+  }
+
+  .nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .header-cta {
+    padding-block: 0.6rem;
+    padding-inline: 1.1rem;
+  }
+
+  @media (max-width: 760px) {
+    .nav {
+      display: none;
+    }
+    .header-cta {
+      margin-left: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav a::after {
+      transition: none;
+    }
+  }
+</style>

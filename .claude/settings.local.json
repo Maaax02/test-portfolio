@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm install --no-audit --no-fund)",
+      "PowerShell(npm run build)",
+      "PowerShell(Start-Process npm -ArgumentList 'run','preview' -WindowStyle Hidden; Start-Sleep -Seconds 4; try { \\(Invoke-WebRequest -Uri 'http://localhost:4321/' -UseBasicParsing\\).StatusCode } catch { $_.Exception.Message })",
+      "PowerShell(npm run preview)",
+      "PowerShell($ok=$false; for\\($i=0;$i -lt 15;$i++\\){ try { $r=Invoke-WebRequest -Uri 'http://localhost:4321/' -UseBasicParsing -TimeoutSec 3; Write-Output \"HTTP $\\($r.StatusCode\\)\"; $ok=$true; break } catch { Start-Sleep -Milliseconds 800 } }; if\\(-not $ok\\){ Write-Output 'no response yet' })"
+    ]
+  }
+}

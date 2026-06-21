@@ -1,0 +1,177 @@
+---
+const servizi = [
+  {
+    n: '01',
+    titolo: 'Siti per attività locali',
+    target: 'B&B · ristoranti · studi professionali',
+    testo:
+      'Una presenza professionale che ispira fiducia al primo sguardo e porta prenotazioni e contatti diretti, senza intermediari.',
+    punti: ['Prenotazioni e richieste dirette', 'Veloce anche da telefono', 'Trovabile su Google'],
+    tinta: 'cobalto',
+  },
+  {
+    n: '02',
+    titolo: 'E-commerce per botteghe e produttori',
+    target: 'Prodotti tipici · artigianato · cantine',
+    testo:
+      'Vendi i tuoi prodotti oltre il negozio fisico, h24 e ovunque. Il cliente che ti ha scoperto in vacanza può riordinare tutto l’anno.',
+    punti: ['Vendite fuori stagione', 'Pagamenti sicuri', 'Gestione semplice'],
+    tinta: 'verde',
+  },
+  {
+    n: '03',
+    titolo: 'Web app e automazioni',
+    target: 'Gestionali su misura · integrazioni',
+    testo:
+      'Automatizzo i processi ripetitivi e collego gli strumenti che già usi, così recuperi le ore che oggi perdi in lavoro manuale.',
+    punti: ['Meno lavoro manuale', 'Strumenti integrati', 'Su misura per te'],
+    tinta: 'ocra',
+  },
+];
+---
+
+<section class="section" id="servizi">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="eyebrow">Cosa faccio</p>
+      <h2>Tre modi per far crescere la tua attività.</h2>
+      <p class="sec-sub">
+        Non vendo “siti web”. Vendo risultati concreti: più clienti, più vendite, meno
+        tempo perso. Ecco da dove partiamo.
+      </p>
+    </header>
+
+    <div class="grid">
+      {
+        servizi.map((s, i) => (
+          <article class={`card tint-${s.tinta}`} data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <span class="card-n mono">{s.n}</span>
+            <h3>{s.titolo}</h3>
+            <p class="card-target mono">{s.target}</p>
+            <p class="card-text">{s.testo}</p>
+            <ul class="card-list">
+              {s.punti.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-head {
+    max-width: 36ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .sec-head .eyebrow {
+    margin-bottom: var(--space-s);
+  }
+
+  .sec-sub {
+    margin-top: var(--space-m);
+    color: var(--fg-muted);
+    font-size: var(--step-1);
+    max-width: 52ch;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-m);
+  }
+
+  .card {
+    --tint: var(--cobalto);
+    position: relative;
+    background: var(--bg-elev);
+    border: 1px solid var(--linea);
+    border-radius: var(--radius-l);
+    padding: var(--space-l) var(--space-m) var(--space-m);
+    overflow: hidden;
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+
+  .tint-cobalto {
+    --tint: var(--cobalto);
+  }
+  .tint-verde {
+    --tint: var(--verde-maiolica);
+  }
+  .tint-ocra {
+    --tint: var(--ocra-prof);
+  }
+
+  /* striscia smaltata in alto */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 5px;
+    background: var(--tint);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
+    border-color: color-mix(in srgb, var(--tint) 40%, var(--linea));
+  }
+
+  .card-n {
+    color: var(--tint);
+    font-size: var(--step-1);
+    font-weight: 700;
+  }
+
+  .card h3 {
+    margin-top: var(--space-2xs);
+  }
+
+  .card-target {
+    margin-top: 0.4rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+
+  .card-text {
+    margin-top: var(--space-s);
+    color: var(--fg-muted);
+  }
+
+  .card-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-m);
+    display: grid;
+    gap: 0.55rem;
+    font-size: var(--step--1);
+  }
+
+  .card-list li {
+    position: relative;
+    padding-left: 1.4rem;
+  }
+
+  .card-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--tint);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: none;
+    }
+  }
+</style>
